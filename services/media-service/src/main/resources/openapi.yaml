@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info:
+  title: Media Service API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8086
+paths:
+  /api/v1/media/uploads/presign:
+    post:
+      summary: Create signed upload URL
+      responses:
+        '200':
+          description: OK

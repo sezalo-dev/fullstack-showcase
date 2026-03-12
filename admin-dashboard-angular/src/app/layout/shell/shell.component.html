@@ -1,0 +1,25 @@
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav mode="side" opened class="shell-sidenav">
+    <div class="logo">Admin</div>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-list-item routerLink="/users" routerLinkActive="active">Users</a>
+      <a mat-list-item routerLink="/ads" routerLinkActive="active">Anzeigen</a>
+      <a mat-list-item routerLink="/messaging" routerLinkActive="active">Messaging</a>
+      <a mat-list-item routerLink="/settings" routerLinkActive="active">Einstellungen</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="shell-toolbar">
+      <span class="toolbar-title">Admin-Dashboard</span>
+      <span class="spacer"></span>
+      <button mat-button (click)="logout()">Logout</button>
+    </mat-toolbar>
+
+    <main class="shell-main">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

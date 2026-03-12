@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Listing Service API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8081
+paths:
+  /api/v1/public/listings:
+    get:
+      summary: List listings
+      responses:
+        '200':
+          description: OK
+  /api/v1/public/listings/{id}:
+    get:
+      summary: Get listing by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/listings:
+    post:
+      summary: Create listing
+      responses:
+        '200':
+          description: OK
+  /api/v1/listings/{id}:
+    put:
+      summary: Update listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content

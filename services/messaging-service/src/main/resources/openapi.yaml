@@ -1,0 +1,227 @@
+openapi: 3.1.0
+info:
+  title: Messaging Service API
+  version: 0.1.0
+  description: API for messaging between sellers and buyers/interested parties
+servers:
+  - url: http://localhost:8083
+paths:
+  /api/v1/messages/status:
+    get:
+      summary: Messaging status
+      responses:
+        '200':
+          description: OK
+  
+  /api/v1/conversations:
+    get:
+      summary: Get all conversations for authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConversationResponse'
+    
+    post:
+      summary: Create or get existing conversation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConversationRequest'
+      responses:
+        '201':
+          description: Conversation created or retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationResponse'
+  
+  /api/v1/conversations/{id}:
+    get:
+      summary: Get conversation with messages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Conversation details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationResponse'
+        '404':
+          description: Conversation not found
+        '403':
+          description: Forbidden - user not part of conversation
+  
+  /api/v1/conversations/{id}/messages:
+    get:
+      summary: Get messages for a conversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageResponse'
+    
+    post:
+      summary: Send a message in a conversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        '201':
+          description: Message created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          description: Conversation not found
+        '403':
+          description: Forbidden - user not part of conversation
+  
+  /api/v1/conversations/{id}/read:
+    put:
+      summary: Mark conversation as read
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Messages marked as read
+        '404':
+          description: Conversation not found
+        '403':
+          description: Forbidden - user not part of conversation
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    CreateConversationRequest:
+      type: object
+      required:
+        - listingId
+      properties:
+        listingId:
+          type: string
+          format: uuid
+          description: ID of the listing to start conversation about
+    
+    MessageRequest:
+      type: object
+      required:
+        - body
+      properties:
+        body:
+          type: string
+          maxLength: 5000
+          description: Message content
+    
+    MessageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        conversationId:
+          type: string
+          format: uuid
+        senderId:
+          type: string
+        body:
+          type: string
+        read:
+          type: boolean
+        readAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    
+    ConversationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        listingId:
+          type: string
+          format: uuid
+        sellerId:
+          type: string
+        buyerId:
+          type: string
+        unreadCount:
+          type: integer
+        lastMessage:
+          $ref: '#/components/schemas/MessageResponse'
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageResponse'
+          nullable: true
+          description: Only included when fetching conversation details

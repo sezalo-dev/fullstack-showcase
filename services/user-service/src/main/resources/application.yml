@@ -1,0 +1,24 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: user-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SUPABASE_JWT_ISSUER:http://supabase-kong:8000/auth/v1}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+supabase:
+  url: ${SUPABASE_URL:}
+  # Service-Role-Key (nicht Anon-Key!) aus Supabase Dashboard: Settings → API → service_role secret.
+  # Ohne diesen Key liefern User-Liste und -Anzahl 0 (Admin-API erfordert Service-Role).
+  service-key: ${SUPABASE_SERVICE_KEY:}
+

@@ -1,0 +1,51 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: listing-service
+  datasource:
+    url: ${SUPABASE_DB_JDBC_URL:}
+    username: ${SUPABASE_DB_USER:postgres}
+    password: ${SUPABASE_DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 30000
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    table: flyway_schema_history_listing
+    baseline-on-migrate: true
+    baseline-version: 0
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:29092}
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      # Don't block startup if Kafka is unavailable
+      properties:
+        max.block.ms: 5000
+    consumer:
+      auto-offset-reset: earliest
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SUPABASE_JWT_ISSUER:http://supabase-kong:8000/auth/v1}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+

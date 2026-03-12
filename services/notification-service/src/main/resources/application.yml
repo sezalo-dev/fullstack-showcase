@@ -1,0 +1,26 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: notification-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:29092}
+  mail:
+    host: ${MAILHOG_SMTP_HOST:localhost}
+    port: ${MAILHOG_SMTP_PORT:1025}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+supabase:
+  url: ${SUPABASE_URL:}
+  service-key: ${SUPABASE_SERVICE_KEY:}
+
+notification:
+  from-email: noreply@porta.local
+  dedup:
+    window-minutes: 5

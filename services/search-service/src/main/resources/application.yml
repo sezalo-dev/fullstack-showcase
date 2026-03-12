@@ -1,0 +1,41 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: search-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:29092}
+    consumer:
+      group-id: search-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      enabled: ${KAFKA_ENABLED:true}
+      properties:
+        spring.json.trusted.packages: "com.example.searchservice.events"
+        spring.json.type.mapping: eventEnvelope:com.example.searchservice.events.EventEnvelope
+      # Don't block startup if Kafka is unavailable
+      max-poll-interval-ms: 300000
+      session-timeout-ms: 30000
+      heartbeat-interval-ms: 3000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SUPABASE_JWT_ISSUER:http://supabase-kong:8000/auth/v1}
+
+
+search:
+  opensearch:
+    url: ${OPENSEARCH_URL:http://localhost:9200}
+    index: ${OPENSEARCH_INDEX:listings}
+  bootstrap:
+    enabled: ${SEARCH_BOOTSTRAP_ENABLED:true}
+    source-url: ${LISTING_SERVICE_PUBLIC_URL:http://localhost:8081/api/v1/public/listings}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

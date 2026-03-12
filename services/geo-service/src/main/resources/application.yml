@@ -1,0 +1,37 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: geo-service
+  datasource:
+    url: ${SUPABASE_DB_JDBC_URL:}
+    username: ${SUPABASE_DB_USER:postgres}
+    password: ${SUPABASE_DB_PASSWORD:}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      leak-detection-threshold: 30000
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    table: flyway_schema_history_geo
+    baseline-on-migrate: true
+    baseline-version: 0
+    connect-retries: 3
+    connect-retries-interval: 5
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

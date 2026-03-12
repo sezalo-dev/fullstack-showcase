@@ -1,0 +1,19 @@
+openapi: 3.1.0
+info:
+  title: Billing Service API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8084
+paths:
+  /api/v1/billing/checkout:
+    post:
+      summary: Create Stripe checkout session
+      responses:
+        '200':
+          description: OK
+  /webhooks/stripe:
+    post:
+      summary: Stripe webhook endpoint
+      responses:
+        '200':
+          description: OK

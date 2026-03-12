@@ -2,6 +2,27 @@
 
 Monorepo fuer eine Microservices-Plattform rund um Anzeigen, Suche, Messaging und Verwaltung. Das Repository enthaelt Backend-Services, ein Next.js-Frontend, ein Angular-Admin-Frontend sowie die lokale Infrastruktur auf Basis von Docker Compose und self-hosted Supabase.
 
+## Public-Repo-Hinweis
+
+Diese veroeffentlichte Version ist bewusst leicht reduziert.
+
+Enthalten bleiben:
+
+- Monorepo-Struktur
+- Frontend-, Admin- und Service-Aufteilung
+- Beispielhafte Konfigurationen
+- Architektur- und Projektbeschreibungen
+
+Nicht enthalten sind unter anderem:
+
+- produktionsspezifische Compose-/Env-Dateien
+- Lasttest-Artefakte
+- Seed-, Import- und Hilfsskripte
+- weite Teile der internen Java-Service-Implementierungen
+
+Ziel ist, Architektur und technische Entscheidungen sichtbar zu machen, ohne das interne Projekt in vollstaendiger operativer Form offenzulegen.
+
+
 ## Projektstatus
 
 Dieses Projekt befindet sich weiterhin in Entwicklung. Viele Bereiche sind noch unvollstaendig oder bewusst als Integrations- und Architekturgrundlage belassen.
@@ -45,7 +66,6 @@ services/
   search-service/
   user-service/
 docker-compose.yml
-PUBLIC_REPO_NOTES.md
 ```
 
 ## Lokale Entwicklung
@@ -119,17 +139,6 @@ Weitere Details stehen in [frontend-nextjs/README.md](frontend-nextjs/README.md)
 - Die Java-Services sprechen die interne Datenbank im Compose-Netz ueber `supabase-db` an.
 - Produktionsspezifische Konfigurationsdateien sind nicht Teil dieser oeffentlichen Version.
 
-## Public-Repo-Hinweis
-
-Aus der veroeffentlichten Version wurden unter anderem entfernt:
-
-- produktionsspezifische Compose- und Env-Dateien
-- Lasttest-Artefakte
-- Seed-, Import- und Hilfsskripte
-- interne Java-Implementierungen in mehreren Services, die in dieser Public-Version als Platzhalter erhalten sind
-
-Dadurch bleibt die Architektur nachvollziehbar, waehrend betriebsnahe Details und interne Hilfsartefakte nicht Teil der oeffentlichen Version sind.
-
 ## Dokumentation im Repo
 
 - [frontend-nextjs/README.md](frontend-nextjs/README.md)
@@ -138,8 +147,6 @@ Dadurch bleibt die Architektur nachvollziehbar, waehrend betriebsnahe Details un
   - Ueberblick ueber die Produktflaechen und Frontend-Architektur
 - [admin-dashboard-angular/README.md](admin-dashboard-angular/README.md)
   - Admin-Frontend, Login, Routing, lokale Entwicklung und Docker-Build
-- [PUBLIC_REPO_NOTES.md](PUBLIC_REPO_NOTES.md)
-  - kurzer Hinweis zu den bewusst entfernten Artefakten
 
 ## Rechte und Nutzung
 

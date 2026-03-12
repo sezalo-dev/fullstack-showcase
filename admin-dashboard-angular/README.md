@@ -159,8 +159,3 @@ Diese Ordner sind generierte Artefakte und nicht die fachliche Quelle:
 - `.angular/`
 - `dist/`
 - `node_modules/`
-
-## Hinweise
-
-- Die bisherige README war weitgehend Angular-CLI-Standardtext und deckte den echten Projektkontext kaum ab.
-- Für produktive Nutzung muss Supabase erreichbar sein und der verwendete Benutzer muss durch Backend/JWT als Admin anerkannt werden.
